@@ -1,14 +1,23 @@
-import { useState } from "react";
-import { Link } from "react-router";
-import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "../../icons";
-import Label from "../form/Label";
-import Input from "../form/input/InputField";
-import Checkbox from "../form/input/Checkbox";
-import Button from "../ui/button/Button";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router';
+import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from '../../icons';
+import Label from '../form/Label';
+import Input from '../form/input/InputField';
+import Checkbox from '../form/input/Checkbox';
+import Button from '../ui/button/Button';
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [role, setRole] = useState('admin');
+  const navigate = useNavigate();
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const auth = { role };
+    localStorage.setItem('auth', JSON.stringify(auth));
+    navigate('/');
+  }
   return (
     <div className="flex flex-col flex-1">
       <div className="w-full max-w-md pt-10 mx-auto">
@@ -83,21 +92,36 @@ export default function SignInForm() {
                 </span>
               </div>
             </div>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="space-y-6">
                 <div>
+                  <label className="block text-sm text-gray-600">
+                    Login As
+                  </label>
+                  <select
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                    className="mt-1 w-full rounded border p-2"
+                  >
+                    <option value="admin">Admin</option>
+                    <option value="staff">Staff</option>
+                    <option value="trainer">Trainer</option>
+                  </select>
+                </div>
+
+                <div>
                   <Label>
-                    Email <span className="text-error-500">*</span>{" "}
+                    Email <span className="text-error-500">*</span>{' '}
                   </Label>
                   <Input placeholder="info@gmail.com" />
                 </div>
                 <div>
                   <Label>
-                    Password <span className="text-error-500">*</span>{" "}
+                    Password <span className="text-error-500">*</span>{' '}
                   </Label>
                   <div className="relative">
                     <Input
-                      type={showPassword ? "text" : "password"}
+                      type={showPassword ? 'text' : 'password'}
                       placeholder="Enter your password"
                     />
                     <span
@@ -127,7 +151,7 @@ export default function SignInForm() {
                   </Link>
                 </div>
                 <div>
-                  <Button className="w-full" size="sm">
+                  <Button className="w-full" size="sm" type="submit">
                     Sign in
                   </Button>
                 </div>
@@ -136,7 +160,7 @@ export default function SignInForm() {
 
             <div className="mt-5">
               <p className="text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start">
-                Don&apos;t have an account? {""}
+                Don&apos;t have an account? {''}
                 <Link
                   to="/signup"
                   className="text-brand-500 hover:text-brand-600 dark:text-brand-400"
