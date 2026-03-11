@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router';
 import SignIn from './pages/AuthPages/SignIn';
 import SignUp from './pages/AuthPages/SignUp';
 import NotFound from './pages/OtherPage/NotFound';
@@ -18,6 +18,7 @@ import Blank from './pages/Blank';
 import AppLayout from './layout/AppLayout';
 import { ScrollToTop } from './components/common/ScrollToTop';
 import Home from './pages/Dashboard/Home';
+import PublicHome from './pages/PublicHome';
 import Members from './pages/Members';
 import Plans from './pages/Plans';
 import Payments from './pages/Payments';
@@ -31,9 +32,21 @@ export default function App() {
       <Router>
         <ScrollToTop />
         <Routes>
-          {/* Dashboard Layout */}
+          {/* Public homepage */}
+          <Route path="/" element={<PublicHome />} />
+
+          {/* Dashboard Layout (admin routes) */}
           <Route element={<AppLayout />}>
-            <Route index path="/" element={<Home />} />
+            <Route
+              path="/dashboard"
+              element={
+                localStorage.getItem('auth') ? (
+                  <Home />
+                ) : (
+                  <Navigate to="/signin" replace />
+                )
+              }
+            />
 
             {/* Others Page */}
             <Route path="/profile" element={<UserProfiles />} />

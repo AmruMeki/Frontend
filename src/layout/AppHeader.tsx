@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
-import { Link } from "react-router";
-import { useSidebar } from "../context/SidebarContext";
-import { ThemeToggleButton } from "../components/common/ThemeToggleButton";
-import NotificationDropdown from "../components/header/NotificationDropdown";
-import UserDropdown from "../components/header/UserDropdown";
+import { Link } from 'react-router';
+import { useSidebar } from '../context/SidebarContext';
+import { ThemeToggleButton } from '../components/common/ThemeToggleButton';
+import NotificationDropdown from '../components/header/NotificationDropdown';
+import UserDropdown from '../components/header/UserDropdown';
 
 const AppHeader: React.FC = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
@@ -27,16 +27,16 @@ const AppHeader: React.FC = () => {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
+      if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
         event.preventDefault();
         inputRef.current?.focus();
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
 
@@ -83,7 +83,7 @@ const AppHeader: React.FC = () => {
             {/* Cross Icon */}
           </button>
 
-          <Link to="/" className="lg:hidden">
+          <Link to="/" className="flex items-center gap-2">
             <img
               className="dark:hidden"
               src="./images/logo/logo.svg"
@@ -95,6 +95,27 @@ const AppHeader: React.FC = () => {
               alt="Logo"
             />
           </Link>
+
+          <nav className="hidden lg:flex items-center gap-6 ml-6">
+            <Link
+              to="/"
+              className="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300"
+            >
+              Home
+            </Link>
+            <Link
+              to="/blog"
+              className="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300"
+            >
+              Blog
+            </Link>
+            <Link
+              to="/contact"
+              className="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300"
+            >
+              Contact Us
+            </Link>
+          </nav>
 
           <button
             onClick={toggleApplicationMenu}
@@ -153,18 +174,23 @@ const AppHeader: React.FC = () => {
         </div>
         <div
           className={`${
-            isApplicationMenuOpen ? "flex" : "hidden"
+            isApplicationMenuOpen ? 'flex' : 'hidden'
           } items-center justify-between w-full gap-4 px-5 py-4 lg:flex shadow-theme-md lg:justify-end lg:px-0 lg:shadow-none`}
         >
           <div className="flex items-center gap-2 2xsm:gap-3">
-            {/* <!-- Dark Mode Toggler --> */}
             <ThemeToggleButton />
-            {/* <!-- Dark Mode Toggler --> */}
             <NotificationDropdown />
-            {/* <!-- Notification Menu Area --> */}
           </div>
-          {/* <!-- User Area --> */}
-          <UserDropdown />
+          <div className="flex items-center gap-3">
+            <Link
+              to="/signin"
+              className="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700"
+            >
+              Login
+            </Link>
+            {/* <!-- User Area --> */}
+            <UserDropdown />
+          </div>
         </div>
       </div>
     </header>

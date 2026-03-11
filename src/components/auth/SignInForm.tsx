@@ -16,7 +16,7 @@ export default function SignInForm() {
     e.preventDefault();
     const auth = { role };
     localStorage.setItem('auth', JSON.stringify(auth));
-    navigate('/');
+    navigate('/dashboard');
   }
   return (
     <div className="flex flex-col flex-1">
